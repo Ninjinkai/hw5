@@ -1,10 +1,12 @@
 @import url(http://fonts.googleapis.com/css?family=Oswald);
 
+/*
 body {
   background-color: #000;
   font-family: 'Oswald', 'Futura', sans-serif;
   margin: 0;
   padding: 0;}
+*/
 
 #page {
   background-color: #403c3b;
@@ -33,7 +35,7 @@ h2 {
   text-transform: uppercase;
   letter-spacing: .3em;
   display: inline-block;
-  margin: 0 0 23px 0;}
+  margin: 23px 0 23px 0;}
 
 h2 span {
   background-color: #fff;
@@ -79,6 +81,7 @@ li a {
 li.complete a {
   background-image: none;}
 
+/*
 p {
   background-color: #fff;
   color: #666;
@@ -88,6 +91,7 @@ p {
   width: 80%;
   border-radius: 5px;
   text-align: center;}
+*/
 
 .hot {
   background-color: #d7666b;
