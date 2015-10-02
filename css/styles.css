@@ -266,9 +266,11 @@ a.show{
 
 /* Small screen:mobile */
 @media only screen and (max-width: 500px) {
+/*
   body {
       background-color: #403c3b;
   }
+*/
   #page {
     max-width: 480px;
   }
