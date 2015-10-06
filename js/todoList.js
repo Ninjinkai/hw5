@@ -49,11 +49,12 @@ $(function() {
         $this.remove();                // Then completely remove this item
       });
     } else {                           // Otherwise indicate it is complete
-      item = $this.text();             // Get the text from the list item
-      $this.remove();                  // Remove the list item
-      $list                            // Add back to end of list as complete
-        .append('<li class=\"complete\">' + item + '</li>')
-        .hide().fadeIn(300);           // Hide it so it can be faded in
+        $this.addClass('complete');
+//      item = $this.text();             // Get the text from the list item
+//      $this.remove();                  // Remove the list item
+//      $list                            // Add back to end of list as complete
+//        .append('<li class=\"complete\">' + item + '</li>')
+//        .hide().fadeIn(300);           // Hide it so it can be faded in
       updateCount();                   // Update the counter
     }                                  // End of else option
   });                                  // End of event handler
