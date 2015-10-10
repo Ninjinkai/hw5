@@ -1,96 +1,109 @@
-$(function() {
+$(function () {
 
-  // SETUP
-  var $list, $newItemForm, $newItemButton;
-  var item = '';                                 // item is an empty string
-  $list = $('ul');                               // Cache the unordered list
-  $newItemForm = $('#newItemForm');              // Cache form to add new items
-  $newItemButton = $('#newItemButton');          // Cache button to show form
-    var $editButton = $('#add');
+    //Cache key elements
+    var $list = $('ul');
+    var $newItemForm = $('#newItemForm');
+    var $enterButton = $('#add');
+    var $itemDescription = $('#itemDescription');
 
-  $('li').hide().each(function(index) {          // Hide list items
-    $(this).delay(450 * index).fadeIn(1600);     // Then fade them in
-  });
-
-  // ITEM COUNTER
-  function updateCount() {                       // Create function to update counter
-    var items = $('li[class!=complete]').length; // Number of items in list
-    $('#counter').text(items);                   // Added into counter circle
-  }
-    updateCount();                               // Call the function
-    $newItemForm.show();                         // Show the form
-
-  // ADDING A NEW LIST ITEM
-    $newItemForm.on('submit', function(e) {       // When a new item is submitted
-        e.preventDefault();                       // Prevent form being submitted
-        var $this = $(this);
-        var text = $('input:text').val();         // Get value of text input
-        var $editItem = $('#editItem');
-        var $editParent = $editItem.parent();
-
-        if ($newItemForm.hasClass('editMode')) {
-            $editItem.val(text);
-            $editItem.removeClass('editing');
-            $editItem.removeAttr("id", "editItem");
-            $editParent.removeClass('editing');
-            $editButton.val('add');
-            $newItemForm.removeClass('editMode');
-        }
-        else {
-            $list.append('<li><div class="notDone">done?</div><div class="itemText">' + text + '</div><div class="trash">trash</div></li>');      // Add item to end of the list
-        }
-    $('input:text').val('');                  // Empty the text input
-        updateCount();                            // Update the count
+    //List loading animation
+    $('li').hide().each(function (index) {
+        $(this).delay(450 * index).fadeIn(1600);
     });
 
-    $list.on('click', '.trash', function () {
+    //Update incomplete items counter
+    function updateCount() {
+        var $items = $('li[class!=complete]').length;
+        $('#counter').text($items);
+    }
+
+    //Clear editing controls, reset input box
+    function removeEditMode() {
+        var $editItem = $('#editItem');
+        var $editParent = $editItem.parent();
+        $editItem.removeClass('editing');
+        $editItem.removeAttr("id", "editItem");
+        $editParent.removeClass('editing');
+        $enterButton.val('add');
+        $newItemForm.removeClass('editMode');
+        $('input:text').val('');
+        $itemDescription.focus();
+        updateCount();
+    }
+
+    //Finish loading page and show input box
+    updateCount();
+    $newItemForm.show();
+
+    //Handle a new item addition or editing completion
+    $newItemForm.on('submit', function (event) {
+        event.preventDefault();
+        var $this = $(this);
+        var $text = $('input:text').val();
+        if ($newItemForm.hasClass('editMode')) {
+            var $editItem = $('#editItem');
+            var $editParent = $editItem.parent();
+            $editItem.text($text);
+        } else {
+            $list.append('<li><div class="notDone" /><div class="itemText">' + $text + '</div><div class="trash" /></li>');
+        }
+        removeEditMode();
+    });
+
+    //Delete an item
+    $list.on('click', '.trash', function (event) {
+        event.stopPropagation();
         var $this = $(this);
         var $parent = $this.parent();
-        $('#editItem').removeClass('editing');
-        $parent.removeClass('editing');
+        removeEditMode();
         $parent.addClass('complete');
         $parent.animate({
             opacity: 0.0,
             paddingLeft: '+=180'
-        }, 500, 'swing', function() {
+        }, 500, 'swing', function () {
             $parent.remove();
         });
         updateCount();
     });
 
-    $list.on('click', '.notDone', function () {
+    //Mark an item as done
+    $list.on('click', '.notDone', function (event) {
+        event.stopPropagation();
         var $this = $(this);
         var $parent = $this.parent();
-        $('#editItem').removeClass('editing');
-        $parent.removeClass('editing');
+        removeEditMode();
         $this.removeClass('notDone');
-        $this.addClass('done').text('DONE!');
+        $this.addClass('done');
         $parent.addClass('complete');
         updateCount();
     });
 
-    $list.on('click', '.done', function () {
+    //Mark an item as not done
+    $list.on('click', '.done', function (event) {
+        event.stopPropagation();
         var $this = $(this);
         var $parent = $this.parent();
-        $('#editItem').removeClass('editing');
-        $parent.removeClass('editing');
+        removeEditMode();
         $this.removeClass('done');
-        $this.addClass('notDone').text('done?');
+        $this.addClass('notDone');
         $parent.removeClass('complete');
         updateCount();
     });
 
-    $list.on('click', '.itemText', function () {
+    //Enable editing of an item's text
+    $list.on('click', 'li', function (event) {
         var $this = $(this);
-        var $parent = $this.parent();
+        var $toEdit = $this.children('.itemText');
         var $editBox = $('#itemDescription');
-        var $text = $this.text();
+        var $text = $toEdit.text();
+        removeEditMode();
+        $toEdit.addClass('editing');
+        $toEdit.attr("id", "editItem");
         $this.addClass('editing');
-        $this.attr("id", "editItem");
-        $parent.addClass('editing');
         $editBox.val($text);
-        $editButton.val('edit');
+        $enterButton.val('edit');
         $newItemForm.addClass('editMode');
+        $itemDescription.focus();
     });
 
 });
