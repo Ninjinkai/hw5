@@ -138,8 +138,11 @@ li.complete a {
     background-color: #fff;
     padding-left: 1em;
     color: #000;
-    width: 100px;
     display: inline-block;
+}
+
+.editing {
+    background-color: rgb(250, 255, 189);
 }
 
 /*
