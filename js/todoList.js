@@ -6,6 +6,11 @@ $(function () {
     var $enterButton = $('#add');
     var $itemDescription = $('#itemDescription');
 
+    //Load list from local storage
+    //NOT FUNCTIONAL
+//    var $listData = localStorage.getItem("listData");
+//    $list.append(JSON.parse($listData));
+
     //List loading animation
     $('li').hide().each(function (index) {
         $(this).delay(450 * index).fadeIn(1600);
@@ -17,6 +22,12 @@ $(function () {
         $('#counter').text($items);
     }
 
+    //Save list to local storage
+    //NOT FUNCTIONAL
+//    function saveList() {
+//        localStorage.setItem("listData", JSON.stringify($list));
+//    }
+
     //Clear editing controls, reset input box
     function removeEditMode() {
         var $editItem = $('#editItem');
@@ -27,7 +38,7 @@ $(function () {
         $enterButton.val('add');
         $newItemForm.removeClass('editMode');
         $('input:text').val('');
-        $itemDescription.focus();
+        $itemDescription.attr("placeholder", "Add a task");
         updateCount();
     }
 
@@ -48,6 +59,7 @@ $(function () {
             $list.append('<li><div class="notDone" /><div class="itemText">' + $text + '</div><div class="trash" /></li>');
         }
         removeEditMode();
+//        saveList();
     });
 
     //Delete an item
@@ -64,6 +76,7 @@ $(function () {
             $parent.remove();
         });
         updateCount();
+//        saveList();
     });
 
     //Mark an item as done
@@ -76,6 +89,7 @@ $(function () {
         $this.addClass('done');
         $parent.addClass('complete');
         updateCount();
+//        saveList();
     });
 
     //Mark an item as not done
@@ -88,6 +102,7 @@ $(function () {
         $this.addClass('notDone');
         $parent.removeClass('complete');
         updateCount();
+//        saveList();
     });
 
     //Enable editing of an item's text
@@ -100,7 +115,8 @@ $(function () {
         $toEdit.addClass('editing');
         $toEdit.attr("id", "editItem");
         $this.addClass('editing');
-        $editBox.val($text);
+        $itemDescription.val($text);
+        $itemDescription.attr("placeholder", "Edit task");
         $enterButton.val('edit');
         $newItemForm.addClass('editMode');
         $itemDescription.focus();
