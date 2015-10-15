@@ -1,7 +1,7 @@
 $(function () {
     'use strict';
 
-    //Cache key elements
+    //Cache the task list, input form, input button, and text input box
     var $list = $('ul');
     var $newItemForm = $('#newItemForm');
     var $enterButton = $('#add');
@@ -28,7 +28,7 @@ $(function () {
     updateCount();
     $newItemForm.show();
 
-    //Clear editing controls, reset input box
+    //Clear editing controls, then reset input form
     function removeEditMode() {
         var $editItem = $('#editItem');
         var $editParent = $editItem.parent();
@@ -42,7 +42,7 @@ $(function () {
         updateCount();
     }
 
-    //Handle a new item addition or editing completion
+    //Handle submission of an edit or a new item
     $newItemForm.on('submit', function (event) {
         event.preventDefault();
         var $this = $(this);
@@ -58,7 +58,7 @@ $(function () {
 //        saveList();
     });
 
-    //Delete an item
+    //Delete an item when the trash icon is clicked
     $list.on('click', '.trash', function (event) {
         event.stopPropagation();
         var $this = $(this);
@@ -75,7 +75,7 @@ $(function () {
 //        saveList();
     });
 
-    //Mark an item as done
+    //Mark an item as done when the red box is clicked
     $list.on('click', '.notDone', function (event) {
         event.stopPropagation();
         var $this = $(this);
@@ -88,7 +88,7 @@ $(function () {
 //        saveList();
     });
 
-    //Mark an item as not done
+    //Mark an item as not done when the green box is clicked
     $list.on('click', '.done', function (event) {
         event.stopPropagation();
         var $this = $(this);
@@ -101,7 +101,7 @@ $(function () {
 //        saveList();
     });
 
-    //Enable editing of an item's text
+    //Enable editing of an item's text when the item is clicked
     $list.on('click', 'li', function (event) {
         var $this = $(this);
         var $toEdit = $this.children('.itemText');
