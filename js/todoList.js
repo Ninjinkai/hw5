@@ -1,4 +1,5 @@
 $(function () {
+    'use strict';
 
     //Cache key elements
     var $list = $('ul');
@@ -11,10 +12,11 @@ $(function () {
 //    var $listData = localStorage.getItem("listData");
 //    $list.append(JSON.parse($listData));
 
-    //List loading animation
-    $('li').hide().each(function (index) {
-        $(this).delay(450 * index).fadeIn(1600);
-    });
+    //Save list to local storage
+    //NOT FUNCTIONAL
+//    function saveList() {
+//        localStorage.setItem("listData", $list.children());
+//    }
 
     //Update incomplete items counter
     function updateCount() {
@@ -22,11 +24,9 @@ $(function () {
         $('#counter').text($items);
     }
 
-    //Save list to local storage
-    //NOT FUNCTIONAL
-//    function saveList() {
-//        localStorage.setItem("listData", JSON.stringify($list));
-//    }
+    //Finish loading page and show input box
+    updateCount();
+    $newItemForm.show();
 
     //Clear editing controls, reset input box
     function removeEditMode() {
@@ -37,20 +37,16 @@ $(function () {
         $editParent.removeClass('editing');
         $enterButton.val('add');
         $newItemForm.removeClass('editMode');
-        $('input:text').val('');
+        $itemDescription.val('');
         $itemDescription.attr("placeholder", "Add a task");
         updateCount();
     }
-
-    //Finish loading page and show input box
-    updateCount();
-    $newItemForm.show();
 
     //Handle a new item addition or editing completion
     $newItemForm.on('submit', function (event) {
         event.preventDefault();
         var $this = $(this);
-        var $text = $('input:text').val();
+        var $text = $itemDescription.val();
         if ($newItemForm.hasClass('editMode')) {
             var $editItem = $('#editItem');
             var $editParent = $editItem.parent();
@@ -109,7 +105,6 @@ $(function () {
     $list.on('click', 'li', function (event) {
         var $this = $(this);
         var $toEdit = $this.children('.itemText');
-        var $editBox = $('#itemDescription');
         var $text = $toEdit.text();
         removeEditMode();
         $toEdit.addClass('editing');
@@ -117,9 +112,9 @@ $(function () {
         $this.addClass('editing');
         $itemDescription.val($text);
         $itemDescription.attr("placeholder", "Edit task");
+        $itemDescription.focus();
         $enterButton.val('edit');
         $newItemForm.addClass('editMode');
-        $itemDescription.focus();
     });
 
 });
