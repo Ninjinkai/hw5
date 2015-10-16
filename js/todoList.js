@@ -8,15 +8,15 @@ $(function () {
     var $itemDescription = $('#itemDescription');
 
     //Load list from local storage
-    //NOT FUNCTIONAL: $list is not a JSON object
-//    var $listData = localStorage.getItem("listData");
-//    $list.append(JSON.parse($listData));
+    if (localStorage.getItem("listData") !== null) {
+        $list.html(localStorage.getItem("listData"));
+    }
 
     //Save list to local storage
-    //NOT FUNCTIONAL: $list is not a JSON object
-//    function saveList() {
-//        localStorage.setItem("listData", $list);
-//    }
+    //Called after an item is added, deleted, or changed
+    function saveList() {
+        localStorage.setItem("listData", $list.html());
+    }
 
     //Update incomplete items counter
     function updateCount() {
@@ -60,7 +60,7 @@ $(function () {
             $list.append('<li><div class="notDone" /><div class="itemText">' + $text + '</div><div class="trash" /></li>');
         }
         removeEditMode();
-//        saveList();
+        saveList();
     });
 
     //Delete an item when the trash icon is clicked
@@ -79,7 +79,7 @@ $(function () {
             $parent.remove();
         });
         updateCount();
-//        saveList();
+        saveList();
     });
 
     //Mark an item as done when the red box is clicked
@@ -94,7 +94,7 @@ $(function () {
         $this.addClass('done');
         $parent.addClass('complete');
         updateCount();
-//        saveList();
+        saveList();
     });
 
     //Mark an item as not done when the green box is clicked
@@ -109,7 +109,7 @@ $(function () {
         $this.addClass('notDone');
         $parent.removeClass('complete');
         updateCount();
-//        saveList();
+        saveList();
     });
 
     //Enable editing of an item's text when the item is clicked
