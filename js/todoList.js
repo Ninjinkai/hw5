@@ -70,14 +70,9 @@ $(function () {
         var $this = $(this);
         var $parent = $this.parent();
         removeEditMode();
-        //Animate list item being removed
+        //Remove the list item
         $parent.addClass('complete');
-        $parent.animate({
-            opacity: 0.0,
-            paddingLeft: '+=180'
-        }, 500, 'swing', function () {
-            $parent.remove();
-        });
+        $parent.remove();
         updateCount();
         saveList();
     });
